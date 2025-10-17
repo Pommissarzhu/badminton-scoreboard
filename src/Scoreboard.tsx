@@ -19,8 +19,8 @@ const Scoreboard: React.FC = () => {
   const [winner, setWinner] = useState<string | null>(null);
   const { setThemeMode } = useContext(ThemeContext);
   const [themeSetting, setThemeSetting] = useState<ThemeSetting>('system');
-  const [player1Name, setPlayer1Name] = useState('');
-  const [player2Name, setPlayer2Name] = useState('');
+  const [player1Name, setPlayer1Name] = useState('球员 1');
+  const [player2Name, setPlayer2Name] = useState('球员 2');
   const [gameHistory, setGameHistory] = useState<Game[]>([]);
   const [winningScore, setWinningScore] = useState(21);
   const [gamesToWin, setGamesToWin] = useState(2);
@@ -69,7 +69,7 @@ const Scoreboard: React.FC = () => {
       player1Score === winningScore + 9
     ) {
       setPlayer1Games(player1Games + 1);
-      setGameHistory([...gameHistory, { player1Score, player2Score, winner: player1Name || '球员 1' }]);
+      setGameHistory([...gameHistory, { player1Score, player2Score, winner: player1Name }]);
       setPlayer1Score(0);
       setPlayer2Score(0);
     } else if (
@@ -77,7 +77,7 @@ const Scoreboard: React.FC = () => {
       player2Score === winningScore + 9
     ) {
       setPlayer2Games(player2Games + 1);
-      setGameHistory([...gameHistory, { player1Score, player2Score, winner: player2Name || '球员 2' }]);
+      setGameHistory([...gameHistory, { player1Score, player2Score, winner: player2Name }]);
       setPlayer1Score(0);
       setPlayer2Score(0);
     }
@@ -85,9 +85,9 @@ const Scoreboard: React.FC = () => {
 
   useEffect(() => {
     if (player1Games === gamesToWin) {
-      setWinner(player1Name || '球员 1');
+      setWinner(player1Name);
     } else if (player2Games === gamesToWin) {
-      setWinner(player2Name || '球员 2');
+      setWinner(player2Name);
     }
   }, [player1Games, player2Games, player1Name, player2Name, gamesToWin]);
 
@@ -132,21 +132,22 @@ const Scoreboard: React.FC = () => {
               </FormControl>
             </Grid>
           </Grid>
-          <Grid container spacing={2} sx={{ mb: 2 }}>
-            <Grid item xs={6}>
-              <TextField placeholder="球员 1 名称" value={player1Name} onChange={(e) => setPlayer1Name(e.target.value)} fullWidth />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField placeholder="球员 2 名称" value={player2Name} onChange={(e) => setPlayer2Name(e.target.value)} fullWidth />
-            </Grid>
-          </Grid>
           <Grid container spacing={2}>
             <Grid item xs={6}>
               <Card sx={{ backgroundColor: server === 1 ? 'primary.main' : 'background.default' }}>
                 <CardContent>
-                  <Typography variant="h5" component="div">
-                    {player1Name || '球员 1'}
-                  </Typography>
+                  <TextField
+                    value={player1Name}
+                    onChange={(e) => setPlayer1Name(e.target.value)}
+                    variant="standard"
+                    sx={{
+                      maxWidth: 150,
+                      '& .MuiInput-underline:before': { borderBottom: '1px solid transparent' },
+                      '& .MuiInput-underline:hover:not(.Mui-disabled):before': { borderBottom: '1px solid' },
+                      '& .MuiInput-underline:after': { borderBottom: '1px solid' },
+                    }}
+                    inputProps={{ style: { textAlign: 'center', fontSize: '1.25rem' } }}
+                  />
                   <Typography variant="h1" component="div">
                     {player1Score}
                   </Typography>
@@ -159,9 +160,18 @@ const Scoreboard: React.FC = () => {
             <Grid item xs={6}>
               <Card sx={{ backgroundColor: server === 2 ? 'primary.main' : 'background.default' }}>
                 <CardContent>
-                  <Typography variant="h5" component="div">
-                    {player2Name || '球员 2'}
-                  </Typography>
+                  <TextField
+                    value={player2Name}
+                    onChange={(e) => setPlayer2Name(e.target.value)}
+                    variant="standard"
+                    sx={{
+                      maxWidth: 150,
+                      '& .MuiInput-underline:before': { borderBottom: '1px solid transparent' },
+                      '& .MuiInput-underline:hover:not(.Mui-disabled):before': { borderBottom: '1px solid' },
+                      '& .MuiInput-underline:after': { borderBottom: '1px solid' },
+                    }}
+                    inputProps={{ style: { textAlign: 'center', fontSize: '1.25rem' } }}
+                  />
                   <Typography variant="h1" component="div">
                     {player2Score}
                   </Typography>
