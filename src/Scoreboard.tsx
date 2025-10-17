@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Container, Grid, Button, Card, CardContent, Typography, Box, Select, MenuItem, FormControl, InputLabel, SelectChangeEvent, TextField, List, ListItem, ListItemText } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import { ThemeContext } from './ThemeContext';
 
 type ThemeSetting = 'system' | 'light' | 'dark';
@@ -24,6 +25,7 @@ const Scoreboard: React.FC = () => {
   const [gameHistory, setGameHistory] = useState<Game[]>([]);
   const [winningScore, setWinningScore] = useState(21);
   const [gamesToWin, setGamesToWin] = useState(2);
+  const theme = useTheme();
 
   const handlePlayer1Score = () => {
     if (!winner) {
@@ -134,7 +136,7 @@ const Scoreboard: React.FC = () => {
           </Grid>
           <Grid container spacing={2}>
             <Grid item xs={6}>
-              <Card sx={{ backgroundColor: server === 1 ? 'primary.main' : 'background.default' }}>
+              <Card sx={{ backgroundColor: server === 1 ? 'primary.main' : 'background.default', color: server === 1 ? 'primary.contrastText' : 'text.primary' }}>
                 <CardContent>
                   <TextField
                     value={player1Name}
@@ -145,20 +147,31 @@ const Scoreboard: React.FC = () => {
                       '& .MuiInput-underline:before': { borderBottom: '1px solid transparent' },
                       '& .MuiInput-underline:hover:not(.Mui-disabled):before': { borderBottom: '1px solid' },
                       '& .MuiInput-underline:after': { borderBottom: '1px solid' },
+                      '& .MuiInputBase-input': {
+                        color: server === 1 ? 'primary.contrastText' : 'text.primary',
+                      },
                     }}
                     inputProps={{ style: { textAlign: 'center', fontSize: '1.25rem' } }}
                   />
                   <Typography variant="h1" component="div">
                     {player1Score}
                   </Typography>
-                  <Button variant="contained" color="success" onClick={handlePlayer1Score} disabled={!!winner}>
+                  <Button
+                    variant="contained"
+                    sx={{
+                      backgroundColor: server === 1 ? (theme.palette.mode === 'dark' ? '#f5f5f5' : 'background.default') : 'primary.main',
+                      color: server === 1 ? (theme.palette.mode === 'dark' ? '#212121' : 'text.primary') : 'primary.contrastText',
+                    }}
+                    onClick={handlePlayer1Score}
+                    disabled={!!winner}
+                  >
                     +1
                   </Button>
                 </CardContent>
               </Card>
             </Grid>
             <Grid item xs={6}>
-              <Card sx={{ backgroundColor: server === 2 ? 'primary.main' : 'background.default' }}>
+              <Card sx={{ backgroundColor: server === 2 ? 'primary.main' : 'background.default', color: server === 2 ? 'primary.contrastText' : 'text.primary' }}>
                 <CardContent>
                   <TextField
                     value={player2Name}
@@ -169,13 +182,24 @@ const Scoreboard: React.FC = () => {
                       '& .MuiInput-underline:before': { borderBottom: '1px solid transparent' },
                       '& .MuiInput-underline:hover:not(.Mui-disabled):before': { borderBottom: '1px solid' },
                       '& .MuiInput-underline:after': { borderBottom: '1px solid' },
+                      '& .MuiInputBase-input': {
+                        color: server === 2 ? 'primary.contrastText' : 'text.primary',
+                      },
                     }}
                     inputProps={{ style: { textAlign: 'center', fontSize: '1.25rem' } }}
                   />
                   <Typography variant="h1" component="div">
                     {player2Score}
                   </Typography>
-                  <Button variant="contained" color="success" onClick={handlePlayer2Score} disabled={!!winner}>
+                  <Button
+                    variant="contained"
+                    sx={{
+                      backgroundColor: server === 2 ? (theme.palette.mode === 'dark' ? '#f5f5f5' : 'background.default') : 'primary.main',
+                      color: server === 2 ? (theme.palette.mode === 'dark' ? '#212121' : 'text.primary') : 'primary.contrastText',
+                    }}
+                    onClick={handlePlayer2Score}
+                    disabled={!!winner}
+                  >
                     +1
                   </Button>
                 </CardContent>

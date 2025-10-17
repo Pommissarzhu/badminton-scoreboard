@@ -1,13 +1,62 @@
 import React, { createContext, useState, useMemo, useEffect } from 'react';
 import { createTheme, ThemeProvider as MuiThemeProvider, useMediaQuery } from '@mui/material';
 import { PaletteMode } from '@mui/material';
-import { cyan, indigo } from '@mui/material/colors';
 
 type ThemeSetting = 'system' | 'light' | 'dark';
 
 export const ThemeContext = createContext({
   setThemeMode: (setting: ThemeSetting) => {},
 });
+
+const bsuTheme = {
+  primary: {
+    main: '#BE1619',
+    contrastText: '#fff',
+  },
+  secondary: {
+    main: '#f44336',
+    contrastText: '#fff',
+  },
+  tertiary: {
+    main: '#005bac',
+    contrastText: '#fff',
+  },
+  accent: {
+    main: '#ffc107',
+  },
+  background: {
+    default: '#f5f5f5',
+    paper: '#fff',
+  },
+  text: {
+    primary: '#212121',
+  },
+};
+
+const bsuDarkTheme = {
+  primary: {
+    main: '#BE1619',
+    contrastText: '#fff',
+  },
+  secondary: {
+    main: '#f3d4a0',
+    contrastText: '#333',
+  },
+  tertiary: {
+    main: '#005bac',
+    contrastText: '#fff',
+  },
+  accent: {
+    main: '#ffc107',
+  },
+  background: {
+    default: '#121212',
+    paper: '#1e1e1e',
+  },
+  text: {
+    primary: '#fff',
+  },
+};
 
 export const ThemeProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
@@ -34,23 +83,7 @@ export const ThemeProvider: React.FC<{children: React.ReactNode}> = ({ children 
       createTheme({
         palette: {
           mode,
-          ...(mode === 'light'
-            ? {
-                // palette values for light mode
-                primary: cyan,
-                background: {
-                  default: cyan[50],
-                  paper: cyan[100],
-                },
-              }
-            : {
-                // palette values for dark mode
-                primary: indigo,
-                background: {
-                  default: '#121212',
-                  paper: '#1e1e1e',
-                },
-              }),
+          ...(mode === 'light' ? bsuTheme : bsuDarkTheme),
         },
       }),
     [mode]
